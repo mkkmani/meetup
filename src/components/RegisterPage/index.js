@@ -1,3 +1,4 @@
+import {withRouter} from 'react-router-dom'
 import Context from '../../context/Context'
 import Header from '../Header'
 import {
@@ -38,7 +39,7 @@ const topicsList = [
   },
 ]
 
-const RegisterPage = () => (
+const RegisterPage = props => (
   <Context.Consumer>
     {context => {
       const {
@@ -58,9 +59,11 @@ const RegisterPage = () => (
         onSelectTopic(event.target.value)
       }
 
-      const onClickRegister = event => {
-        event.preventDefault()
+      const onSubmitForm = e => {
+        const {history} = props
+        e.preventDefault()
         onClickRegisterNow()
+        history.replace('/')
       }
 
       return (
@@ -74,7 +77,7 @@ const RegisterPage = () => (
               />
               <FormContainer>
                 <Heading>Let us join</Heading>
-                <Form onSubmit={onClickRegister}>
+                <Form onSubmit={onSubmitForm}>
                   <Label htmlFor="name">NAME</Label>
                   <Input
                     id="name"
@@ -104,4 +107,4 @@ const RegisterPage = () => (
   </Context.Consumer>
 )
 
-export default RegisterPage
+export default withRouter(RegisterPage)
